@@ -18,14 +18,17 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+// import {createStackNavigator} from '@react-navigation/stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 var SharedPreferences = require('react-native-shared-preferences');
+import DefaultPreference from 'react-native-default-preference';
 
-import MyWeb from './container/WebView';
+import MyWeb from './container/WebView(functional)';
 
 function HomeScreen(props) {
   function clearcookies() {
-    SharedPreferences.removeItem('cmpdata');
+    // SharedPreferences.removeItem('cmpdata');
+    DefaultPreference.clear('cmpdata');
   }
   return (
     <View
@@ -38,15 +41,13 @@ function HomeScreen(props) {
       <Button
         color="orange"
         onPress={() => props.navigation.navigate('cmp')}
-        title={'Gravito CMP'}></Button>
-      <Button
-        color="orange"
-        onPress={() => clearcookies()}
-        title={'Clear'}></Button>
+        title={'Gravito CMP'}
+      />
+      <Button color="orange" onPress={() => clearcookies()} title={'Clear'} />
     </View>
   );
 }
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 const App = () => {
   return (
     <>
