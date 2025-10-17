@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gravito webview</title>
+    </head>
+
+    <body>
+      <!-- Gravito CMP Deployment Script -->
+    <script>
+      
+      window.gravito = {};
+      // add config object to gravito
+      window.gravito.config = {
+  "cmp": {
+    "settings": {
+      "useTopDomain": false,
+      "catchCMPEvents": true,
+      "syncAfter": 1800,
+      "sdkVersion": 6,
+      "version": "latest",
+      "customerUniqueID": "D9C61DB2-C869-4E98-9226-2572450BB33C"
+    },
+    "styles": {
+      "logoUrl": "http://webnews.textalk.com/upload/articlefile/6/925289/logo_clean.png",
+      "logoAltText": "website logo",
+      "primaryColor": "#00474D",
+      "secondaryColor": "#a3a3a3",
+      "headerColor": "#ffffff",
+      "footerColor": "#ffffff",
+      "fonts": [
+        {
+          "url": "https://cdn.gravito.net/fonts/lato-v22-latin-700.woff2",
+          "unicodeRange": "U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;"
+        },
+        {
+          "url": "https://cdn.gravito.net/fonts/lato-v22-latin-700.woff2",
+          "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;"
+        }
+      ]
+    },
+    "tcf": {
+      "core": {
+        "languageCode": "sv",
+        "publisherCountryCode": "FI",
+        "purposeOneTreatment": false,
+        "legitimateInterestDefaultBehavaior": true,
+        "purposes": [
+          {
+            "type": "purposes",
+            "id": 1
+          },
+          {
+            "type": "purposes",
+            "id": 10
+          },
+          {
+            "type": "stacks",
+            "id": 26
+          }
+        ],
+        "specialPurposes": [
+          1,
+          2
+        ],
+        "necessaryLegitimatePurposes": [],
+        "vendors": [
+          2,
+          6,
+          8,
+          511,
+          11,
+          14,
+          278,
+          755
+        ],
+        "necessaryVendors": [],
+        "features": [
+          1,
+          2,
+          3
+        ],
+        "specialFeatures": [
+          1,
+          2
+        ],
+        "useACM": false,
+        "googleVendors": [],
+        "useGCM": true,
+        "useAdvanceGCM": true,
+        "adsConsentId": [
+          1
+        ],
+        "adsUserDataConsentId": [
+          1,
+          7
+        ],
+        "adsPersonalizationConsentId": [
+          3,
+          4
+        ],
+        "analyticsConsentId": [
+          7,
+          9,
+          10
+        ],
+        "functionalityStorageConsentId": [
+          10
+        ],
+        "functionalityStorageId": false,
+        "personalizationStorageConsentId": [
+          1,
+          4
+        ],
+        "personalizationStorageId": false,
+        "securityStorageConsentId": [
+          9
+        ],
+        "securityStorageId": true,
+        "useUET": true,
+        "nonTCFVendors": [
+          {
+            "type": "nonTCFVendors",
+            "id": 1,
+            "name": "Facebook",
+            "description": "description for facebook",
+            "isConsentable": true,
+            "cookiesDeclaration": []
+          },
+          {
+            "type": "nonTCFVendors",
+            "id": 2,
+            "name": "Amazon",
+            "description": "description for amazon",
+            "isConsentable": false,
+            "cookiesDeclaration": []
+          }
+        ],
+        "customPurposes": [
+          {
+            "type": "customPurpose",
+            "id": 1,
+            "name": "Data Collection",
+            "description": "Gravito can collect data and can use it for better experience of its customers",
+            "descriptionLegal": "Gravito can collect data and can use it for better experience of its customers",
+            "isLegitimate": true,
+            "isConsentable": true
+          },
+          {
+            "type": "customPurpose",
+            "id": 2,
+            "name": "Targeting",
+            "description": "Gravito can use data for targeting its customers",
+            "descriptionLegal": "Gravito can use data for targeting its customers",
+            "isLegitimate": false,
+            "isConsentable": true
+          }
+        ],
+        "publisherRestrictions": [
+          {
+            "purposeID": 1,
+            "restrictionType": "REQUIRE_CONSENT",
+            "vendors": [
+              6,
+              12
+            ]
+          },
+          {
+            "purposeID": 1,
+            "restrictionType": "REQUIRE_CONSENT",
+            "vendors": [
+              8
+            ]
+          },
+          {
+            "purposeID": 2,
+            "restrictionType": "REQUIRE_CONSENT",
+            "vendors": [
+              8
+            ]
+          }
+        ],
+        "cookieName": "TcString",
+        "cookieExpiry": 365,
+        "rejectAllCookieExpiry": 365,
+        "version": 1,
+        "googleTcfId": 755,
+        "isWebView": true
+      },
+      "languages": {
+        "sv": {
+          "label": "Svenska",
+          "nonTCFVendors": [
+            {
+              "type": "nonTCFVendors",
+              "id": 1,
+              "name": "Facebook",
+              "description": "description for facebook",
+              "isConsentable": true,
+              "cookiesDeclaration": []
+            },
+            {
+              "type": "nonTCFVendors",
+              "id": 2,
+              "name": "Amazon",
+              "description": "description for amazon",
+              "isConsentable": false,
+              "cookiesDeclaration": []
+            }
+          ],
+          "customPurposes": [
+            {
+              "type": "customPurpose",
+              "id": 1,
+              "name": "Data Collection",
+              "description": "Gravito can collect data and can use it for better experience of its customers",
+              "descriptionLegal": "Gravito can collect data and can use it for better experience of its customers",
+              "isLegitimate": true,
+              "isConsentable": true
+            },
+            {
+              "type": "customPurpose",
+              "id": 2,
+              "name": "Targeting",
+              "description": "Gravito can use data for targeting its customers",
+              "descriptionLegal": "Gravito can use data for targeting its customers",
+              "isLegitimate": false,
+              "isConsentable": true
+            }
+          ],
+          "text": {
+            "declaration": {
+              "header": "Vi bryr oss om din integritet",
+              "title": "Vi behöver ditt samtycke för att kunna ge en personlig upplevelse.",
+              "introductionText": "Gravito och dess <span id='partners-link'>{VendorsCount} tredjepartsleverantörer</span> samlar in personuppgifter (t.ex. IP-adress, enhetsidentifierare) genom användning av cookies och andra tekniska metoder som lagrar och får åtkomst till data på din enhet för att ge den bästa användarupplevelsen och visa riktat innehåll och annonsering.",
+              "consentableItemDescription": "Gravito och dess partners kräver samtycke för följande:",
+              "legalFooter": "Genom att acceptera tillåter du databehandling inom tjänsten, avslag kan påverka användarupplevelsen. Vissa tredjepartsleverantörer kan använda sitt legitima intresse för att verka, du kan invända mot det eller ändra andra inställningar när som helst genom att välja 'Inställningar' längst ner på sidan."
+            },
+            "details": {
+              "header": "Detaljer",
+              "title": "Inställningar",
+              "introductionText": "Våra {VendorsCount} leverantörer lagrar och/eller får åtkomst till information på din enhet för personliga annonser och innehåll. <a class='gravitoCMP-TCFCMP-link' href='https://business.safety.google/privacy/' target='_blank'>Googles säkerhetspolicy för företag</a></br>Välj från följande lista med syften för att hjälpa oss att betjäna dig bättre.",
+              "copyTCstringTooltip": "Klicka här för att kopiera TC-strängen till urklipp"
+            },
+            "commonTerms": {
+              "purposeAndCharacteristics": "Syfte och egenskaper",
+              "purposes": "Syften",
+              "consent": "Samtycke",
+              "legitimateInterest": "Legitimt intresse",
+              "specialPurposes": "Särskilda syften",
+              "specialFeatures": "Särskilda funktioner",
+              "features": "Funktioner",
+              "nonTCFVendors": "Ej TCF-leverantörer",
+              "vendors": "Leverantörer",
+              "customPurposes": "Anpassade syften",
+              "cookieMaxAge": "Cookie max ålder (sekunder)",
+              "disclouserDetails": "Detaljer",
+              "disclouserFetchingError": "Kunde inte hämta JSON-data",
+              "disclouserHeaderIdentifier": "Identifierare",
+              "disclouserHeaderDomain": "Domän",
+              "disclouserHeaderType": "Typ",
+              "disclosureHeaderMaxAge": "Max ålder",
+              "disclosureHeaderPurpose": "Syften",
+              "cookieRefresh": "Cookie-uppdatering",
+              "usesCookies": "Använder cookies",
+              "usesNonCookieAccess": "Använder åtkomst utan cookies",
+              "yes": "Ja",
+              "no": "Nej",
+              "seconds": "sekunder",
+              "days": "dagar",
+              "alertMessageForCopiedTcString": "CMP-inställningar kopierade",
+              "purposeIllustration": "Illustration",
+              "legitVendorCount": "Leverantörer med legitimt intresse",
+              "consentVendorCount": "Samtyckesleverantörer",
+              "stdRetention": "Standardlagring",
+              "dataDeclaration": "Datadeklaration",
+              "vendorCountDeclarationText": "{VendorsCount} leverantörer kan använda detta",
+              "legIntClaim": "Legitimt anspråk",
+              "dataDeclarationNameHeader": "Namn",
+              "dataDeclarationIdHeader": "ID",
+              "dataDeclarationDescriptionHeader": "Beskrivning",
+              "retention": "Lagringstid",
+              "googleVendors": "Google-leverantörer",
+              "acceptAll": "Acceptera alla",
+              "save": "Acceptera valda",
+              "rejectAll": "Avvisa alla",
+              "settings": "Mina inställningar",
+              "cancel": "Avbryt",
+              "confirm": "Bekräfta",
+              "privacyPolicyLabel": "Integritetspolicy",
+              "privacyPolicyUrl": "https://lokalpressen.eu/annonsera/kontakta-oss"
+            }
+          }
+        }
+      },
+      "style": {
+        "consentInputType": "checkbox",
+        "customCSS": "/* Add CSS Here... */\r\n\r\n.gravitoCMP-tab-container {}\r\n\r\n.gravitoCMP-brand-header {}\r\n\r\n.gravitoCMP-logo-div {}\r\n\r\n.gravitoCMP-tabs-div {}\r\n\r\n.gravitoCMP-tab {}\r\n\r\n.gravitoCMP-tab-content {}\r\n\r\n.gravitoCMP-action-footer-div {}\r\n\r\n.gravitoCMP-tab-footer {}\r\n\r\n.gravitoCMP-TCFCMP-layer1-container {}\r\n\r\n.gravitoCMP-TCFCMP-content-container-layer2 {}\r\n\r\n.gravitoCMP-footer-links {}\r\n\r\n.gravitoCMP-footer-logo-div {}"
+      }
+    }
+  }
+};
+  
+      var gravitoSDKTag = document.createElement("script");
+      gravitoSDKTag.src = "https://cdn.gravito.net/sdk/v6/latest/sdk.js";
+      gravitoSDKTag.onload = function () {
+        window.gravito.init();
+      };
+      document.head.appendChild(gravitoSDKTag);
+    </script>
+    </body>
+    </html>

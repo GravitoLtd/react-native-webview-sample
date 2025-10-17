@@ -1,189 +1,97 @@
-# Gravito WebView-based CMP Integration Guide
+This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
-## Section 1: General Architecture – WebView-based CMP (Platform-agnostic)
+# Getting Started
 
-### Overview
-Gravito’s WebView-based CMP is a cross-platform solution designed for use in mobile apps. It allows apps to display and interact with the CMP using an embedded web browser (WebView), regardless of the native platform (React Native, Flutter, Native Android, or Native iOS).
+> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
 
-### High-Level Flow
+## Step 1: Start Metro
 
-1. **CMP HTML Page**
-   - Gravito provides an embeddable CMP HTML containing all configuration and JavaScript logic.
-   - This page must be hosted by the developer (on a CDN or local server).
+First, you will need to run **Metro**, the JavaScript build tool for React Native.
 
-2. **WebView Integration**
-   - The CMP HTML is loaded into the mobile app’s WebView component.
-   - The URL must include `?platform={platformName}` query param (e.g., `reactnative`, `flutter`, `android`, `ios`).
-   - This tells the CMP JavaScript how to handle communication for that specific platform.
+To start the Metro dev server, run the following command from the root of your React Native project:
 
-3. **Communication Mechanism**
-   - Communication between the CMP (JavaScript) and the native app occurs through:
-     - `window.postMessage` from the CMP
-     - Native event listener or handler (e.g., `onMessage`)
-     - JavaScript injection (`evaluateJavascript`, `injectJavaScript`, etc.)
-   - Based on the platform, different APIs are used to facilitate this message passing.
+```sh
+# Using npm
+npm start
 
-### Configuration
-- In the webview based CMP config make sure you have set below property in config object:
-```json
-gravito.config.cmp.tcf.core.isWebView = true,
+# OR using Yarn
+yarn start
 ```
 
-#### Showing the CMP UI even if the user has already given consent
-- If you want to show the CMP UI even if the user has already given consent, you can set the `gravito.config.cmp.tcf.core.showUiWhenConsented` to `true` in the config object.
-```json
-gravito.config.cmp.tcf.core.showUiWhenConsented = true,
+## Step 2: Build and run your app
+
+With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+
+### Android
+
+```sh
+# Using npm
+npm run android
+
+# OR using Yarn
+yarn android
 ```
 
-### Core Message Events
+### iOS
 
-| Event Type   | Direction   | Purpose                                                                      |
-|--------------|-------------|------------------------------------------------------------------------------|
-| CMP-loaded   | CMP → App | CMP is ready and requests consent data                                       |
-| cookieData   | App → CMP | App sends existing consent data (if any)                                     |
-| save         | CMP → App | User saved consent; app must store this data                                 |
-| config       | App → CMP | App configures display properties of CMP UI (optional)                       |
-| load         | CMP → App | CMP sends version info (informational)                                       |
-| close        | CMP → App | CMP UI closed (informational)                                                |
+For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
 
-### App Responsibilities
+The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
 
-- Host the CMP HTML provided by Gravito
-- Load it in a WebView with the correct platform query param
-- Listen to messages from CMP (`CMP-loaded`, `save`)
-- Send stored consent data to CMP if available
-- Store updated consent data received from CMP
-- Optionally configure CMP UI behavior using a `config` message
-- Store the tcf consents and related data in a persistent storage solution (e.g., SharedPreferences, UserDefaults, etc.) in the format mentioned in the [TC Data Format](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#how-is-a-cmp-used-in-app).
-- if use Google Additional Consent mode you should also store the AcString data in the same persistent storage solution against the key mentioned in the [Google Additional Consent Mode](https://support.google.com/admanager/answer/9681920?hl=en#store-ac-string:~:text=In-,%2D,-app).
-
-Note: All the information about the CMP that needs to be stored in the app is available in the data received in the save event.
-
-## Section 2: Platform-Specific Implementation
-
-### React Native
-
-#### Sample App
-You can find a sample React Native app that integrates the Gravito CMP using WebView [here]()
-
-#### Required Packages
-
-```bash
-npm install react-native-webview react-native-default-preference
+```sh
+bundle install
 ```
 
-#### Code Example
+Then, and every time you update your native dependencies, run:
 
-```tsx
-import React, {useEffect, useState} from 'react';
-import {ActivityIndicator} from 'react-native';
-import {WebView} from 'react-native-webview';
-import DefaultPreference from 'react-native-default-preference';
-
-const CMPWebView = ({navigation}) => {
-  const [cmpdata, setCmpdata] = useState(undefined);
-  const [loading, setLoading] = useState(true);
-  let webViewRef = null;
-
-  useEffect(() => {
-    DefaultPreference.get('cmpdata').then(value => setCmpdata(value));
-  }, []);
-
-  const goBack = () => navigation.pop();
-
-  return (
-    <>
-      <WebView
-        ref={ref => (webViewRef = ref)}
-        source={{
-          uri: 'https://yourhost.com/gravito-cmp.html?platform=reactnative',
-        }}
-        startInLoadingState={true}
-        onLoadStart={() => setLoading(true)}
-        onLoad={() => {
-          setLoading(false);
-          const configEvent = {
-            type: 'config',
-            backgroundColor: 'orange',
-            logoUrl: 'https://cdn.gravito.net/logos/gravito_logo_white_background.png',
-            displayPreferencesCloseBtn: true,
-          };
-          const configJS = `window.postMessage(${JSON.stringify(configEvent)}, "*");true;`;
-          webViewRef.injectJavaScript(configJS);
-        }}
-        onMessage={event => {
-          const {type} = JSON.parse(event.nativeEvent.data);
-          switch (type) {
-            case 'CMP-loaded':
-              const payload = {
-                type: 'cookieData',
-                ...(cmpdata ? JSON.parse(cmpdata) : {}),
-              };
-              const postJS = `window.postMessage(${JSON.stringify(payload)}, "*");true;`;
-              webViewRef.injectJavaScript(postJS);
-              break;
-
-            case 'save':
-              DefaultPreference.set('cmpdata', event.nativeEvent.data);
-              goBack();
-              break;
-
-            case 'load':
-              console.log('CMP config/version info:', event.nativeEvent.data);
-              break;
-
-            case 'close':
-              break;
-
-            default:
-              break;
-          }
-        }}
-      />
-
-      {loading && (
-        <ActivityIndicator
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-          size="large"
-        />
-      )}
-    </>
-  );
-};
-
-export default CMPWebView;
+```sh
+bundle exec pod install
 ```
 
+For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
 
+```sh
+# Using npm
+npm run ios
 
-#### Consent Storage
-
-```tsx
-// To store
-DefaultPreference.set('cmpdata', jsonData);
-
-// To retrieve
-DefaultPreference.get('cmpdata').then(value => { ... });
-```
-Note: The `cmpdata` should be stored in the format mentioned in the [TC Data Format](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#how-is-a-cmp-used-in-app) 
-
-
-#### Opening the CMP UI from Apps
-
-```tsx
-webView.injectJavaScript(
-  'window.gravito.cmp.openPreferences();',
-  true,
-);
+# OR using Yarn
+yarn ios
 ```
 
----
-Note: To Run the sample app, you need to have a Gravito CMP HTML hosted on a server or CDN. Replace `https://yourhost.com/gravito-cmp.html` with the actual URL where your Gravito CMP HTML is hosted.
+If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+
+This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+
+## Step 3: Modify your app
+
+Now that you have successfully run the app, let's make changes!
+
+Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+
+When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+
+- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
+- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+
+## Congratulations! :tada:
+
+You've successfully run and modified your React Native App. :partying_face:
+
+### Now what?
+
+- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
+- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+
+# Troubleshooting
+
+If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+
+# Learn More
+
+To learn more about React Native, take a look at the following resources:
+
+- [React Native Website](https://reactnative.dev) - learn more about React Native.
+- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
+- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
+- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
+- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
