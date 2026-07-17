@@ -24,6 +24,7 @@ var SharedPreferences = require('react-native-shared-preferences');
 import DefaultPreference from 'react-native-default-preference';
 
 import MyWeb from './container/WebView(functional)';
+import Home from './container/home';
 
 function HomeScreen(props) {
   function clearcookies() {
@@ -57,20 +58,20 @@ const App = () => {
             name="cmp"
             component={MyWeb}
             options={{
-              title: 'Gravito CMP',
+              title: 'Gravito TCF CMP Demo',
               headerStyle: {
-                backgroundColor: 'orange',
+                backgroundColor: '#FF4010',
               },
               headerTintColor: '#fff',
             }}
           />
           <Stack.Screen
             name="Home"
-            component={HomeScreen}
+            component={Home}
             options={{
-              title: 'My home',
+              title: 'Gravito TCF CMP Demo',
               headerStyle: {
-                backgroundColor: 'orange',
+                backgroundColor: '#FF4010',
               },
               headerTintColor: '#fff',
             }}

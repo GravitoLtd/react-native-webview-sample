@@ -31,13 +31,12 @@ const MyWeb = (props) => {
             'window.gravito.cmp.openPreferences();',
             true,
           );
-        }}>
-        <Text>Dummy</Text>
-      </TouchableOpacity>
+        }}></TouchableOpacity>
       <WebView
         ref={(refwebView) => (webView = refwebView)}
         source={{
-          uri: 'https://yourhost.com/gravito-cmp.htm?platform=reactnative',
+          // Enter the URL of hosted HTML file and add search param 'platform=<your_platform>' to identify the platform
+          uri: 'https://cdn.gravito.net/webview/hitta.html?platform=reactnative',
         }}
         webviewDebuggingEnabled={true}
         startInLoadingState={true}
