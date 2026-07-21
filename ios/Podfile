@@ -30,5 +30,20 @@ target 'RN_webview_v6' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
+
+    # Work around fmt 11.0.2 failing to compile with Apple Clang in Xcode 26.4+.
+    fmt_base = File.join(installer.sandbox.root, 'fmt', 'include', 'fmt', 'base.h')
+    if File.exist?(fmt_base)
+      content = File.read(fmt_base)
+      patched = content.gsub(
+        /^#(\s*)define FMT_USE_CONSTEVAL 1$/,
+        '#\1define FMT_USE_CONSTEVAL 0'
+      )
+
+      if patched != content
+        File.chmod(0644, fmt_base)
+        File.write(fmt_base, patched)
+      end
+    end
   end
 end

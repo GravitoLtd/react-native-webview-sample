@@ -24,10 +24,12 @@ export default function HomeScreen(props) {
     AsyncStorage.getItem('cmpdata').then(value => {
       console.log('value', value);
       if (value) {
-        const { tcstring, googleConsents } = JSON.parse(value);
+        const { tcstring, googleConsents,gppstring } = JSON.parse(value);
         setStoredData({
           tcString: tcstring,
           googleConsents: googleConsents,
+          gppstring:gppstring
+
         });
       } else {
         setStoredData(null);
