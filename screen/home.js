@@ -51,6 +51,7 @@ export default function HomeScreen(props) {
         justifyContent: 'center',
       }}
     >
+      
       <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>
         Stored CMP Data
       </Text>

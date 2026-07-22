@@ -42,6 +42,8 @@ export default function WebviewScreen(props) {
         //   acString: String,                   // Additional consent string (optional)
         //   isRejectAll: Boolean,               // Indicates if user selected "Reject All"
         //   googleConsents: Object              // Google-formatted consent data
+       //   gppstring: String,                   // Encoded gpp consent string 
+        //   gppData: Object.      // Consent data relevant for in-app usage
 
         // }
 
